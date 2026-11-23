@@ -315,28 +315,34 @@ class _MeeshoAppState extends State<MeeshoApp> {
     padding: const EdgeInsets.fromLTRB(18, 12, 18, 8),
     child: Row(
       children: [
-        const MeeshoLogoMark(size: 44),
-        const SizedBox(width: 10),
+        Container(
+          width: 48,
+          height: 48,
+          decoration: const BoxDecoration(
+            color: Color(0xFFFFF0E2),
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: const Text('👋', style: TextStyle(fontSize: 25)),
+        ),
+        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'meesho',
-                style: TextStyle(
-                  color: plum,
-                  fontSize: 17,
-                  height: 1,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              const SizedBox(height: 4),
               Text(
                 profileName == null
-                    ? 'Hello, let’s shop!'
+                    ? 'Hello,'
                     : 'Hello, ${profileName!.split(' ').first}',
-                style: const TextStyle(color: muted, fontSize: 11),
+                style: const TextStyle(color: muted, fontSize: 13),
+              ),
+              Text(
+                profilePhone == null ? 'Let’s shop!' : '+91 $profilePhone',
+                style: const TextStyle(
+                  color: ink,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -490,8 +496,8 @@ class _MeeshoAppState extends State<MeeshoApp> {
           bottom: 1,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(18),
-            child: Image.network(
-              'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=450&q=80',
+            child: Image.asset(
+              'assets/products/promo.jpg',
               width: 154,
               fit: BoxFit.cover,
               errorBuilder: (_, _, _) => const SizedBox(width: 130),
@@ -950,7 +956,7 @@ class _MeeshoAppState extends State<MeeshoApp> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(7),
-                    child: Image.network(
+                    child: Image.asset(
                       products[entry.key].image,
                       width: 48,
                       height: 48,
@@ -1392,7 +1398,7 @@ class _MeeshoAppState extends State<MeeshoApp> {
                       (id) => ListTile(
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
+                          child: Image.asset(
                             products[id].image,
                             width: 54,
                             height: 54,
@@ -1817,7 +1823,7 @@ class _CartPageState extends State<CartPage> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(9),
-                  child: Image.network(
+                  child: Image.asset(
                     product.image,
                     width: 112,
                     height: 126,
@@ -2071,7 +2077,7 @@ class _CartPageState extends State<CartPage> {
               ListTile(
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(7),
-                  child: Image.network(
+                  child: Image.asset(
                     products[id].image,
                     width: 46,
                     height: 46,
@@ -2279,54 +2285,6 @@ class _CartBenefit extends StatelessWidget {
       ],
     ),
   );
-}
-
-class MeeshoLogoMark extends StatelessWidget {
-  const MeeshoLogoMark({super.key, this.size = 44});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: size,
-    height: size,
-    decoration: BoxDecoration(
-      color: const Color(0xFF5B0B4B),
-      borderRadius: BorderRadius.circular(size * 0.22),
-    ),
-    padding: EdgeInsets.all(size * 0.19),
-    child: CustomPaint(painter: _MeeshoMarkPainter()),
-  );
-}
-
-class _MeeshoMarkPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final scaleX = size.width / 32;
-    final scaleY = size.height / 38;
-    canvas.scale(scaleX, scaleY);
-    final paint = Paint()
-      ..color = const Color(0xFFFF9E00)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
-    final mark = Path()
-      ..moveTo(5, 33)
-      ..lineTo(5, 20)
-      ..quadraticBezierTo(5, 12, 13, 20)
-      ..lineTo(13, 33)
-      ..lineTo(13, 20)
-      ..quadraticBezierTo(13, 12, 21, 20)
-      ..lineTo(21, 33)
-      ..lineTo(21, 20)
-      ..quadraticBezierTo(21, 12, 29, 20)
-      ..lineTo(29, 33);
-    canvas.drawPath(mark, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class ProfileForm extends StatefulWidget {
@@ -2565,7 +2523,7 @@ class ProductCard extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.network(
+                Image.asset(
                   product.image,
                   fit: BoxFit.cover,
                   errorBuilder: (_, _, _) => Container(
@@ -2770,7 +2728,7 @@ class _ProductPageState extends State<ProductPage> {
         children: [
           AspectRatio(
             aspectRatio: .92,
-            child: Image.network(
+            child: Image.asset(
               p.image,
               fit: BoxFit.cover,
               errorBuilder: (_, _, _) => Container(
@@ -2955,7 +2913,7 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               ),
               child: Text(
-                'Add to bag  ·  ₹${p.price}',
+                'Add to Cart  ·  ₹${p.price}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -3035,7 +2993,7 @@ class _ProductPageState extends State<ProductPage> {
                     SizedBox(
                       height: 150,
                       width: double.infinity,
-                      child: Image.network(
+                      child: Image.asset(
                         suggestion.image,
                         fit: BoxFit.cover,
                         errorBuilder: (_, _, _) => Container(
@@ -3216,7 +3174,7 @@ const products = [
     id: 0,
     name: 'Everyday cotton kurta set',
     category: 'Women',
-    image: 'https://images.unsplash.com/photo-1583391733956-6c78276477e1?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p0.jpg',
     price: 510,
     oldPrice: 899,
     rating: 4.2,
@@ -3228,7 +3186,7 @@ const products = [
     id: 1,
     name: 'Floral printed dress',
     category: 'Women',
-    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p1.jpg',
     price: 520,
     oldPrice: 999,
     rating: 4.3,
@@ -3240,7 +3198,7 @@ const products = [
     id: 2,
     name: 'Classic white shirt',
     category: 'Men',
-    image: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p2.jpg',
     price: 421,
     oldPrice: 799,
     rating: 4.1,
@@ -3251,7 +3209,7 @@ const products = [
     id: 3,
     name: 'Wireless earbuds with case',
     category: 'Electronics',
-    image: 'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p3.jpg',
     price: 312,
     oldPrice: 999,
     rating: 4.0,
@@ -3263,7 +3221,7 @@ const products = [
     id: 4,
     name: 'Relaxed fit zip hoodie',
     category: 'Men',
-    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p4.jpg',
     price: 297,
     oldPrice: 649,
     rating: 4.1,
@@ -3274,7 +3232,7 @@ const products = [
     id: 5,
     name: 'Wildplay chocolate perfume',
     category: 'Beauty',
-    image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p5.jpg',
     price: 135,
     oldPrice: 399,
     rating: 3.9,
@@ -3286,7 +3244,7 @@ const products = [
     id: 6,
     name: 'Everyday comfort sandals',
     category: 'Footwear',
-    image: 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p6.jpg',
     price: 192,
     oldPrice: 499,
     rating: 4.2,
@@ -3297,7 +3255,7 @@ const products = [
     id: 7,
     name: 'Fresh floral body mist',
     category: 'Beauty',
-    image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p7.jpg',
     price: 92,
     oldPrice: 249,
     rating: 4.0,
@@ -3308,7 +3266,7 @@ const products = [
     id: 8,
     name: 'Minimal silver pendant set',
     category: 'Jewellery',
-    image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p8.jpg',
     price: 159,
     oldPrice: 449,
     rating: 4.1,
@@ -3319,7 +3277,7 @@ const products = [
     id: 9,
     name: 'Soft cotton printed kurta',
     category: 'Women',
-    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p9.jpg',
     price: 294,
     oldPrice: 599,
     rating: 4.3,
@@ -3330,7 +3288,7 @@ const products = [
     id: 10,
     name: 'Comfy everyday sneakers',
     category: 'Footwear',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p10.jpg',
     price: 484,
     oldPrice: 999,
     rating: 4.2,
@@ -3341,7 +3299,7 @@ const products = [
     id: 11,
     name: 'Festive silk saree',
     category: 'Women',
-    image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p11.jpg',
     price: 439,
     oldPrice: 1299,
     rating: 4.4,
@@ -3353,7 +3311,7 @@ const products = [
     id: 12,
     name: 'Gold-tone bracelet duo',
     category: 'Jewellery',
-    image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p12.jpg',
     price: 175,
     oldPrice: 499,
     rating: 4.0,
@@ -3364,7 +3322,7 @@ const products = [
     id: 13,
     name: 'Cute mini bear kids set',
     category: 'Kids',
-    image: 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p13.jpg',
     price: 242,
     oldPrice: 599,
     rating: 4.3,
@@ -3376,7 +3334,7 @@ const products = [
     id: 14,
     name: 'Everyday home planter',
     category: 'Home',
-    image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p14.jpg',
     price: 166,
     oldPrice: 349,
     rating: 4.2,
@@ -3387,7 +3345,7 @@ const products = [
     id: 15,
     name: 'Fresh glow face wash',
     category: 'Beauty',
-    image: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=85',
+    image: 'assets/products/p15.jpg',
     price: 214,
     oldPrice: 350,
     rating: 4.2,
